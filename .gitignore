@@ -2,6 +2,13 @@
 #
 .DS_Store
 
+node_modules/
+android/build/
+ios/build/
+.env
+local.properties
+*.log
+
 # Xcode
 #
 build/
