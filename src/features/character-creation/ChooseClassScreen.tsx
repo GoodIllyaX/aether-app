@@ -59,29 +59,4 @@ const styles = StyleSheet.create({
   text: { color: '#fff', fontSize: 18 }
 });
 
-// const styles = StyleSheet.create({
-//   container: { 
-//     flex: 1, 
-//     backgroundColor: '#0E0915', 
-//     paddingTop: 50 
-//   },
-//   center: { 
-//     flex: 1, 
-//     backgroundColor: '#0E0915', 
-//     justifyContent: 'center', 
-//     alignItems: 'center' 
-//   },
-//   item: { 
-//     paddingHorizontal: 20, 
-//     paddingVertical: 15, 
-//     borderBottomWidth: 1, 
-//     borderColor: 'rgba(255, 191, 0, 0.2)' 
-//   },
-//   text: { 
-//     color: '#fff', 
-//     fontSize: 18,
-//     fontWeight: '500'
-//   }
-// });
-
 export default ChooseClassScreen;
