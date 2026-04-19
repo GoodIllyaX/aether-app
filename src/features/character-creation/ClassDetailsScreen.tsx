@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ActivityIndicator, ScrollView, SafeAreaView } f
 import { getClassDetails, ClassDetail } from '../../services/characterService';
 import { CLASS_VISUALS, DEFAULT_VISUAL } from '../../constants/classVisuals';
 import { useNavigation } from '@react-navigation/native';
+import { Image } from 'react-native';
 
 const ClassDetailsScreen = ({ route }: any) => {
   const { classIndex } = route.params;
@@ -38,6 +39,13 @@ const ClassDetailsScreen = ({ route }: any) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
+
+        <Image 
+          source={{ uri: visuals.detailIcon }} 
+          style={styles.classImage}
+          resizeMode="contain"
+        />
+        
         <View style={[styles.header, { borderColor: visuals.color }]}>
           <Text style={styles.className}>{details.name.toUpperCase()}</Text>
           <Text style={styles.tagline}>{visuals.tagline}</Text>
@@ -122,6 +130,13 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   chipText: { color: '#FFF', fontSize: 12 },
-});
 
+  classImage: {
+    width: 150,
+    height: 150,
+    alignSelf: 'center',
+    marginTop: 20,
+    marginBottom: 10,
+  },
+});
 export default ClassDetailsScreen;
