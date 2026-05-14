@@ -1,9 +1,21 @@
 import apiClient from '../api/apiClient';
 
+export interface SubclassDetail {
+  index: string;
+  name: string;
+  desc: string[];
+  class: { name: string; index: string };
+}
+
 export interface DndClass {
   index: string;
   name: string;
   url: string;
+}
+
+export interface SubclassDetail {
+  index: string;
+  name: string;
 }
 
 export interface ClassDetail {
@@ -13,6 +25,7 @@ export interface ClassDetail {
   proficiencies: { name: string }[];
   saving_throws: { name: string }[];
   starting_equipment: { equipment: { name: string }; quantity: number }[];
+  subclasses: { index: string; name: string; url: string }[];
 }
 
 const getClasses = async (): Promise<DndClass[]> => {
@@ -35,4 +48,14 @@ const getClassDetails = async (classIndex: string): Promise<ClassDetail | null> 
   }
 };
 
-export { getClasses, getClassDetails };
+const getSubclassDetails = async (subclassIndex: string): Promise<SubclassDetail | null> => {
+  try {
+    const response = await apiClient.get(`/subclasses/${subclassIndex}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error getting subclass details: ${subclassIndex}`, error);
+    return null;
+  }
+};
+
+export { getClasses, getClassDetails, getSubclassDetails };

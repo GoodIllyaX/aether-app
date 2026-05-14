@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { getClasses, DndClass } from '../../services/characterService';
 import { useCharacterStore } from '../../store/useCharacterStore';
 import { useNavigation } from '@react-navigation/native';
@@ -32,7 +33,19 @@ const ChooseClassScreen = () => {
   }
 
 return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={() => {/* Logic ex */}}>
+          <Text style={styles.arrow}>{'<'}</Text>
+        </TouchableOpacity>
+        
+        <Text style={styles.headerTitle}>CHOOSE CLASS</Text>
+        
+        <TouchableOpacity>
+          <Text style={styles.arrow}>{'>'}</Text>
+        </TouchableOpacity>
+      </View>
+
       <FlatList
         data={classes}
         keyExtractor={(item) => item.index}
@@ -48,12 +61,31 @@ return (
           </TouchableOpacity>
         )}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0E0915', paddingTop: 50 },
+  container: { flex: 1, backgroundColor: '#0E0915' },
+  
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 25,
+    paddingVertical: 15,
+  },
+  headerTitle: {
+    color: '#FFF',
+    fontSize: 26,
+    fontWeight: 'bold',
+  },
+  arrow: {
+    color: '#FFD700',
+    fontSize: 30,
+    fontWeight: '300',
+  },
+
   center: { flex: 1, backgroundColor: '#0E0915', justifyContent: 'center', alignItems: 'center' },
   item: { padding: 20, borderBottomWidth: 1, borderColor: 'rgba(255, 191, 0, 0.2)' },
   text: { color: '#fff', fontSize: 18 }

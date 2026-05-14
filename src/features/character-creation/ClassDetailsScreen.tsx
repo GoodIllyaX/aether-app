@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, ScrollView, SafeAreaView } from 'react-native';
-import { getClassDetails, ClassDetail } from '../../services/characterService';
+import { View, Text, StyleSheet, ActivityIndicator, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
+import { useCharacterStore } from '../../store/useCharacterStore';
+import { getClassDetails, ClassDetail} from '../../services/characterService';
 import { CLASS_VISUALS, DEFAULT_VISUAL } from '../../constants/classVisuals';
 import { useNavigation } from '@react-navigation/native';
 import { Image } from 'react-native';
@@ -11,7 +12,21 @@ const ClassDetailsScreen = ({ route }: any) => {
   const [details, setDetails] = useState<ClassDetail | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const { setChosenClass } = useCharacterStore();
+
   const visuals = CLASS_VISUALS[classIndex] || DEFAULT_VISUAL;
+
+  const handleConfirm = () => {
+    if (details && details.subclasses) {
+      setChosenClass(details.name); 
+    
+      navigation.navigate('ChooseArchetype', { 
+        subclasses: details.subclasses,
+        classColor: visuals.color,
+        classIcon: visuals.detailIcon
+      });
+    }
+  };
 
   useEffect(() => {
     navigation.setOptions({ headerLeft: () => null });
@@ -38,6 +53,18 @@ const ClassDetailsScreen = ({ route }: any) => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.arrow}>{'<'}</Text>
+        </TouchableOpacity>
+      
+        <Text style={styles.headerTitle}>{details?.name.toUpperCase() || 'LOADING...'}</Text>
+      
+        <TouchableOpacity>
+          <Text style={styles.arrow}>{'>'}</Text>
+        </TouchableOpacity>
+      </View>
+
       <ScrollView contentContainerStyle={styles.container}>
 
         <Image 
@@ -64,7 +91,6 @@ const ClassDetailsScreen = ({ route }: any) => {
           </View>
         </View>
 
-        {/* Proficiencies Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>PROFICIENCIES</Text>
           <View style={styles.chipContainer}>
@@ -75,6 +101,16 @@ const ClassDetailsScreen = ({ route }: any) => {
             ))}
           </View>
         </View>
+
+        <TouchableOpacity 
+          style={[styles.confirmButton, { backgroundColor: visuals.color }]} 
+          onPress={handleConfirm}
+>
+          <Text style={styles.confirmButtonText}>
+            SELECT {details?.name.toUpperCase()}
+          </Text>
+        </TouchableOpacity>
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -137,6 +173,45 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 20,
     marginBottom: 10,
+  },
+
+  // btn
+  confirmButton: {
+    paddingVertical: 15,
+    borderRadius: 10,
+    marginTop: 30,
+    marginBottom: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 5, // Android
+    shadowColor: '#000', // iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  confirmButtonText: {
+    color: '#000', // #FFF
+    fontSize: 18,
+    fontWeight: '900',
+    letterSpacing: 1,
+  },
+
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 25,
+    paddingVertical: 15,
+  },
+  headerTitle: {
+    color: '#FFF',
+    fontSize: 26,
+    fontWeight: 'bold',
+  },
+  arrow: {
+    color: '#FFD700',
+    fontSize: 30,
+    fontWeight: '300',
   },
 });
 export default ClassDetailsScreen;
