@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, TextInput, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, TextInput, StyleSheet} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { sharedStyles, THEME } from '../../theme/sharedStyles';
 import { useCharacterStore } from '../../store/useCharacterStore';
+
+import { characterService } from '../../services/characterService';
 
 const STATIC_BACKGROUNDS = [
     { index: 'acolyte', name: 'Acolyte' },
@@ -34,6 +36,40 @@ const [bond1, setBond1] = useState('');
 const [bond2, setBond2] = useState('');
 
 const char = useCharacterStore();
+
+const charStore = useCharacterStore();
+
+const handleFinish = async () => {
+const characterData = {
+    name: charStore.heroName,
+    race: charStore.chosenRace?.name || charStore.chosenRace,
+    class: charStore.chosenClass?.name || charStore.chosenClass,
+    stats: charStore.abilityScores,
+    skills: charStore.selectedSkills,
+    background: charStore.background,
+    bio: {
+        alignment: selectedAlignment,
+        story: personalStory,
+        appearance: appearanceValue,
+        faith: faith,
+        ideal: ideal,
+        bond: `${bond1}\n${bond2}`
+    }
+};
+const response = await characterService.saveCharacter(characterData);
+
+console.log('OK SAVE:', response);
+
+navigation.reset({
+    index: 0,
+    routes: [
+        { 
+            name: 'CharacterSheetScreen', 
+            params: { character: characterData } 
+        }
+    ],
+});
+};
 
 return (
     <SafeAreaView style={sharedStyles.safeArea}>
@@ -158,6 +194,9 @@ return (
                         char.setFaith(faith);
                         char.setIdeal(ideal);
                         char.setBond(`${bond1}\n${bond2}`);
+
+                        handleFinish();
+
                         navigation.navigate('CharacterSheetScreen');
                     }}
                 >

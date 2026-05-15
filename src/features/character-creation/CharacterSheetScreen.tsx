@@ -1,15 +1,34 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, SafeAreaView, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 import { useCharacterStore } from '../../store/useCharacterStore';
 import { sharedStyles, THEME } from '../../theme/sharedStyles';
 import { CLASS_VISUALS, DEFAULT_VISUAL } from '../../constants/classVisuals';
 import { SKILL_MAP } from '../../constants/Statblock';
 
 const CharacterSheetScreen = () => {
-    const char = useCharacterStore();
+    const route = useRoute<any>();
+    const charStore = useCharacterStore();
     const [activeTab, setActiveTab] = useState('Hero');
-    const classNameKey = typeof char.chosenClass === 'string' ? char.chosenClass.toLowerCase() : char.chosenClass?.index || '';
 
+    const charData = route.params?.character || {
+        name: charStore.heroName,
+        race: charStore.chosenRace?.name || charStore.chosenRace,
+        class: charStore.chosenClass?.name || charStore.chosenClass,
+        stats: charStore.abilityScores,
+        skills: charStore.selectedSkills,
+        background: charStore.background,
+        bio: {
+            alignment: charStore.alignment,
+            story: charStore.backgroundStory,
+            appearance: charStore.appearance,
+            faith: charStore.faith,
+            ideal: charStore.ideal,
+            bond: charStore.bond,
+        }
+    };
+
+    const classNameKey = typeof charData.class === 'string' ? charData.class.toLowerCase() : charData.class?.index || '';
     const classVisual = CLASS_VISUALS[classNameKey] || DEFAULT_VISUAL;
 
     const getMod = (score: number) => {
@@ -17,158 +36,131 @@ const CharacterSheetScreen = () => {
         return mod >= 0 ? `+${mod}` : `${mod}`;
     };
 
-return (
-    <SafeAreaView style={sharedStyles.safeArea}>
-    
-    <View style={styles.tabHeader}>
-        {['Hero', 'Stat', 'BIO'].map((tab) => (
-        <TouchableOpacity 
-            key={tab} 
-            onPress={() => setActiveTab(tab)}
-            style={[styles.tabButton, activeTab === tab && styles.activeTab]}
-        >
-            <Text style={[styles.tabText, activeTab === tab && { color: THEME.gold }]}>
-                {tab.toUpperCase()}
-            </Text>
-        </TouchableOpacity>
-        ))}
-    </View>
-
-    <ScrollView contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
-        
-        {activeTab === 'Hero' && (
-        <View>
-            <View style={styles.heroHeader}>
-            <Text style={styles.heroName}>{char.heroName?.toUpperCase() || 'HERO'}</Text>
-
-            <Image 
-                source={{ uri: classVisual.detailIcon }} 
-                style={styles.classLargeIcon} 
-                resizeMode="contain" 
-            />
-
-            <View style={styles.badgeRow}>
-                <View style={styles.badge}>
-                    <Text style={styles.badgeText}>
-                        {typeof char.chosenRace === 'string' ? char.chosenRace : char.chosenRace?.name}
-                    </Text>
-                </View>
-                <View style={styles.badge}>
-                    <Text style={styles.badgeText}>
-                        {typeof char.chosenClass === 'string' ? char.chosenClass : char.chosenClass?.name}
-                    </Text>
-                </View>
-            </View>
-                <Text style={styles.alignmentText}>{char.alignment}</Text>
-            </View>
-
-            <View style={styles.statsGrid}>
-                {Object.entries(char.abilityScores).map(([key, value]) => (
-                <View key={key} style={styles.statCard}>
-                    <Text style={styles.statLabel}>{key.toUpperCase()}</Text>
-                    <Text style={styles.statValue}>{value}</Text>
-                <View style={styles.modBadge}>
-                    <Text style={styles.modText}>{getMod(value)}</Text>
-                </View>
-                </View>
+    return (
+        <SafeAreaView style={sharedStyles.safeArea}>
+            <View style={styles.tabHeader}>
+                {['Hero', 'Stat', 'BIO'].map((tab) => (
+                    <TouchableOpacity 
+                        key={tab} 
+                        onPress={() => setActiveTab(tab)}
+                        style={[styles.tabButton, activeTab === tab && styles.activeTab]}
+                    >
+                        <Text style={[styles.tabText, activeTab === tab && { color: THEME.gold }]}>
+                            {tab.toUpperCase()}
+                        </Text>
+                    </TouchableOpacity>
                 ))}
             </View>
 
-            <View style={{ paddingHorizontal: 25, marginTop: 30 }}>
+            <ScrollView contentContainerStyle={{ paddingBottom: 40 }} showsVerticalScrollIndicator={false}>
+                
+                {activeTab === 'Hero' && (
+                    <View>
+                        <View style={styles.heroHeader}>
+                            <Text style={styles.heroName}>{(charData.name || 'HERO').toUpperCase()}</Text>
+                            
+                            <Image 
+                                source={{ uri: classVisual.detailIcon }} 
+                                style={styles.classLargeIcon} 
+                                resizeMode="contain" 
+                            />
 
-                <View style={styles.derivedRow}>
-                    <Text style={styles.derivedLabel}>Passive Wisdom (Perception)</Text>
-                    <Text style={styles.derivedValue}>
-                        {10 + Math.floor((char.abilityScores.wis - 10) / 2)}
-                    </Text>
-                </View>
-
-                <View style={styles.derivedRow}>
-                    <Text style={styles.derivedLabel}>Initiative</Text>
-                    <Text style={styles.derivedValue}>{getMod(char.abilityScores.dex)}</Text>
-                </View>
-
-                <View style={styles.derivedRow}>
-                    <Text style={styles.derivedLabel}>Armor Class (Base)</Text>
-                    <Text style={styles.derivedValue}>
-                        {10 + Math.floor((char.abilityScores.dex - 10) / 2)}
-                    </Text>
-                </View>
-
-                <View style={styles.derivedRow}>
-                    <Text style={styles.derivedLabel}>Proficiency Bonus</Text>
-                    <Text style={styles.derivedValue}>+2</Text>
-                </View>
-
-                <View style={[styles.derivedRow, { borderBottomWidth: 0 }]}>
-                    <Text style={styles.derivedLabel}>Speed (ft)</Text>
-                    <Text style={styles.derivedValue}>30</Text>
-                </View>
-
-            </View>
-
-        </View>
-        )}
-
-        {activeTab === 'Stat' && (
-        <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
-            <Text style={styles.sectionTitle}>SKILLS & MODIFIERS</Text>
-            {Object.keys(SKILL_MAP).map((skillName) => {
-                const abilityKey = SKILL_MAP[skillName] as keyof typeof char.abilityScores;
-                const score = char.abilityScores[abilityKey];
-                const mod = Math.floor((score - 10) / 2);
-                const isProficient = char.selectedSkills.includes(skillName);
-                const totalBonus = isProficient ? mod + 2 : mod;
-
-            return (
-                <View key={skillName} style={styles.skillRow}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <View style={{
-                            width: 8, height: 8, borderRadius: 4, 
-                                backgroundColor: isProficient ? THEME.gold : 'transparent',
-                                marginRight: 10, borderWidth: 1, borderColor: THEME.gold
-                        }} />
-                        <Text style={styles.skillName}>{skillName}</Text>
-                        <Text style={{ color: 'rgba(255,255,255,0.3)', fontSize: 10, marginLeft: 5 }}>
-                            ({abilityKey.toUpperCase()})
-                            </Text>
+                            <View style={styles.badgeRow}>
+                                <View style={styles.badge}><Text style={styles.badgeText}>{charData.race}</Text></View>
+                                <View style={styles.badge}><Text style={styles.badgeText}>{charData.class}</Text></View>
+                            </View>
+                            <Text style={styles.alignmentText}>{charData.bio?.alignment || charData.alignment}</Text>
                         </View>
-                        <Text style={styles.skillBonus}>
-                            {totalBonus >= 0 ? `+${totalBonus}` : totalBonus}
-                        </Text>
-                    </View>
-            );
-            })}
-        </View>
-        )}
 
-        {activeTab === 'BIO' && (
-        <View style={{ paddingHorizontal: 25, paddingTop: 20 }}>
-            <Text style={styles.sectionTitle}>ALIGNMENT: <Text style={{color: '#FFF'}}>{char.alignment}</Text></Text>
-            <Text style={styles.sectionTitle}>FAITH: <Text style={{color: '#FFF'}}>{char.faith || 'None'}</Text></Text>
-            <Text style={styles.sectionTitle}>IDEAL: <Text style={{ color: '#FFF' }}>{char.ideal}</Text></Text>
-            <Text style={styles.sectionTitle}>BOND: <Text style={{ color: '#FFF' }}>{char.bond}</Text></Text>
+                        <View style={styles.statsGrid}>
+                            {Object.entries(charData.stats).map(([key, value]: [string, any]) => (
+                                <View key={key} style={styles.statCard}>
+                                    <Text style={styles.statLabel}>{key.toUpperCase()}</Text>
+                                    <Text style={styles.statValue}>{value}</Text>
+                                    <View style={styles.modBadge}>
+                                        <Text style={styles.modText}>{getMod(value)}</Text>
+                                    </View>
+                                </View>
+                            ))}
+                        </View>
+
+                        <View style={{ paddingHorizontal: 25, marginTop: 30, marginBottom: 20 }}>
             
-            <Text style={styles.sectionTitle}>CHARACTER STORY</Text>
-            <View  style={styles.storyCard}>
-                <Text style={styles.storyText}>
-                    {char.backgroundStory}
-                </Text>
-            </View>
+                            <View style={styles.derivedRow}>
+                                <Text style={styles.derivedLabel}>Armor Class</Text>
+                                <Text style={styles.derivedValue}>{10 + Math.floor(((charData.stats?.dex || 10) - 10) / 2)}</Text>
+                            </View>
 
-            <Text style={[styles.sectionTitle, { marginTop: 30 }]}>APPEARANCE</Text>
-            <View style={styles.storyCard}>
-                <Text style={styles.storyText}>
-                    {char.appearance}
-                </Text>
-            </View>
+                            <View style={styles.derivedRow}>
+                                <Text style={styles.derivedLabel}>Initiative</Text>
+                                <Text style={styles.derivedValue}>{getMod(charData.stats?.dex || 10)}</Text>
+                            </View>
 
-        </View>
-        )}
+                            <View style={styles.derivedRow}>
+                                <Text style={styles.derivedLabel}>Speed</Text>
+                                <Text style={styles.derivedValue}>30 ft.</Text>
+                            </View>
 
-    </ScrollView>
-    </SafeAreaView>
-);
+                            <View style={styles.derivedRow}>
+                                <Text style={styles.derivedLabel}>Passive Wisdom (Perception)</Text>
+                                <Text style={styles.derivedValue}>{10 + Math.floor(((charData.stats?.wis || 10) - 10) / 2)}</Text>
+                            </View>
+
+                            <View style={styles.derivedRow}>
+                                <Text style={styles.derivedLabel}>Hit Points (Max)</Text>
+                                <Text style={styles.derivedValue}>{8 + Math.floor(((charData.stats?.con || 10) - 10) / 2)}</Text>
+                            </View>
+
+                        </View>
+                        
+                    </View>
+                )}
+
+                {activeTab === 'Stat' && (
+                    <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
+                        <Text style={styles.sectionTitle}>SKILLS & MODIFIERS</Text>
+                        {Object.keys(SKILL_MAP).map((skillName) => {
+                            const abilityKey = SKILL_MAP[skillName] as keyof typeof charData.stats;
+                            const score = charData.stats[abilityKey] || 10;
+                            const mod = Math.floor((score - 10) / 2);
+                            const isProficient = charData.skills.includes(skillName) || charData.skills.includes(skillName.toLowerCase());
+                            const totalBonus = isProficient ? mod + 2 : mod;
+
+                            return (
+                                <View key={skillName} style={styles.skillRow}>
+                                    <View style={styles.skillNameContainer}>
+                                        <View style={[styles.profDot, { backgroundColor: isProficient ? THEME.gold : 'transparent' }]} />
+                                        <Text style={styles.skillName}>{skillName}</Text>
+                                    </View>
+                                    <Text style={styles.skillBonus}>{totalBonus >= 0 ? `+${totalBonus}` : totalBonus}</Text>
+                                </View>
+                            );
+                        })}
+                    </View>
+                )}
+
+                {activeTab === 'BIO' && (
+                    <View style={{ paddingHorizontal: 25, paddingTop: 20 }}>
+                        <Text style={styles.sectionTitle}>ALIGNMENT: <Text style={{color: '#FFF'}}>{charData.bio?.alignment || 'N/A'}</Text></Text>
+                        <Text style={styles.sectionTitle}>FAITH: <Text style={{color: '#FFF'}}>{charData.bio?.faith || 'None'}</Text></Text>
+                        <Text style={styles.sectionTitle}>IDEAL: <Text style={{ color: '#FFF' }}>{charData.bio?.ideal || 'N/A'}</Text></Text>
+                        <Text style={styles.sectionTitle}>BOND: <Text style={{ color: '#FFF' }}>{charData.bio?.bond || 'N/A'}</Text></Text>
+                        
+                        <Text style={styles.sectionTitle}>STORY</Text>
+                        <View style={styles.storyCard}>
+                            <Text style={styles.storyText}>{charData.bio?.story || 'No story yet.'}</Text>
+                        </View>
+
+                        <Text style={[styles.sectionTitle, { marginTop: 20 }]}>APPEARANCE</Text>
+                        <View style={styles.storyCard}>
+                            <Text style={styles.storyText}>{charData.bio?.appearance || 'No description provided.'}</Text>
+                        </View>
+
+                    </View>
+                )}
+            </ScrollView>
+        </SafeAreaView>
+    );
 };
 
 const styles = StyleSheet.create({
@@ -301,6 +293,19 @@ const styles = StyleSheet.create({
         color: THEME.white,
         fontSize: 20,
         fontWeight: 'bold',
+    },
+
+    skillNameContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    profDot: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        marginRight: 10,
+        borderWidth: 1,
+        borderColor: THEME.gold,
     },
 });
 

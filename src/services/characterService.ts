@@ -1,4 +1,5 @@
 import apiClient from '../api/apiClient';
+import myBackEndClient from '../api/BackEndClient';
 
 export interface SubclassDetail {
   index: string;
@@ -55,6 +56,17 @@ const getSubclassDetails = async (subclassIndex: string): Promise<SubclassDetail
   } catch (error) {
     console.error(`Error getting subclass details: ${subclassIndex}`, error);
     return null;
+  }
+};
+
+export const characterService = {
+  saveCharacter: async (characterData: any) => {
+    const response = await myBackEndClient.post('/characters', characterData);
+    return response.data;
+  },
+  getAllCharacters: async () => {
+    const response = await myBackEndClient.get('/characters');
+    return response.data;
   }
 };
 

@@ -1,24 +1,51 @@
-import React from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { THEME } from '../../theme/sharedStyles';
-
-const MOCK_CHARACTERS = [
-  { id: '1', name: 'THRORID', race: 'Dragonborn', class: 'Paladin', level: 1 },
-  { id: '2', name: 'VORGAX', race: 'Orc', class: 'Barbarian', level: 3 },
-];
+import { characterService } from '../../services/characterService';
 
 const LibraryScreen = () => {
-  const renderItem = ({ item }: any) => (
-    <TouchableOpacity style={styles.charCard}>
-      <View style={styles.cardInfo}>
-        <Text style={styles.charName}>{item.name}</Text>
-        <Text style={styles.charDetails}>{item.race} • {item.class}</Text>
-      </View>
-      <View style={styles.levelBadge}>
-        <Text style={styles.levelText}>LVL {item.level}</Text>
-      </View>
-    </TouchableOpacity>
+  const navigation = useNavigation<any>();
+  const [characters, setCharacters] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const loadCharacters = async () => {
+    try {
+      setLoading(true);
+      const data = await characterService.getAllCharacters();
+      setCharacters(data);
+    } catch (error) {
+      console.error("Library loading error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      loadCharacters();
+    }, [])
   );
+
+const renderItem = ({ item }: any) => (
+  <TouchableOpacity 
+    style={styles.charCard} 
+    onPress={() => 
+      navigation.navigate('CharacterCreation', { 
+        screen: 'CharacterSheetScreen', 
+      params: { character: item } 
+      })
+}
+  >
+    <View style={styles.cardInfo}>
+      <Text style={styles.charName}>{item.name}</Text>
+      <Text style={styles.charDetails}>{item.race} • {item.class}</Text>
+    </View>
+    <View style={styles.levelBadge}>
+      <Text style={styles.levelText}>LVL 1</Text>
+    </View>
+  </TouchableOpacity>
+);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -26,15 +53,19 @@ const LibraryScreen = () => {
         <Text style={styles.headerTitle}>MY LIBRARY</Text>
       </View>
       
-      <FlatList
-        data={MOCK_CHARACTERS}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        contentContainerStyle={styles.listContent}
-        ListEmptyComponent={
-          <Text style={styles.emptyText}>No characters found. Create your first hero!</Text>
-        }
-      />
+      {loading ? (
+        <ActivityIndicator color={THEME.gold} style={{ marginTop: 50 }} />
+      ) : (
+        <FlatList
+          data={characters}
+          keyExtractor={(item) => item._id}
+          renderItem={renderItem}
+          contentContainerStyle={styles.listContent}
+          ListEmptyComponent={
+            <Text style={styles.emptyText}>No characters found. Create your first hero!</Text>
+          }
+        />
+      )}
     </SafeAreaView>
   );
 };

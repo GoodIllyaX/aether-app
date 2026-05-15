@@ -1,8 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { THEME } from '../theme/sharedStyles';
 import LibraryScreen from '../../src/features/library/LibraryScreen';
+import CharacterSheetScreen from '../features/character-creation/CharacterSheetScreen'; 
+import { CharacterCreationStack } from '../navigation/CharacterCreationStack';
 
 const FeedScreen = () => (
 <View style={styles.screenPlaceholder}>
@@ -57,6 +60,20 @@ export const AppTabs = () => {
         </Tab.Navigator>
     );
 };
+
+const Stack = createStackNavigator();
+
+const AppNavigator = () => {
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="MainTabs" component={AppTabs} />
+            <Stack.Screen name="CharacterSheetScreen" component={CharacterSheetScreen} />
+            <Stack.Screen name="CharacterCreation" component={CharacterCreationStack} />
+        </Stack.Navigator>
+    );
+};
+
+export default AppNavigator;
 
 const styles = StyleSheet.create({
 tabBar: {

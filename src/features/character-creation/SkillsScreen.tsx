@@ -10,7 +10,7 @@ const SkillsScreen = () => {
     const [allSkills, setAllSkills] = useState<any[]>([]);
     const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
-    const { chosenClass } = useCharacterStore();
+    const { chosenClass, setSelectedSkills: setStoreSkills } = useCharacterStore();
 
     const maxSkills = chosenClass === 'Bard' ? 3 : chosenClass === 'Rogue' ? 4 : 2;
 
@@ -72,7 +72,10 @@ const SkillsScreen = () => {
         <TouchableOpacity 
             style={[sharedStyles.confirmButton, { backgroundColor: selectedSkills.length === maxSkills ? THEME.gold : 'rgba(255,255,255,0.1)' }]}
             disabled={selectedSkills.length !== maxSkills}
-            onPress={() => navigation.navigate('ChooseBackgroundScreen')}
+            onPress={() => {
+                setStoreSkills(selectedSkills); 
+                navigation.navigate('ChooseBackgroundScreen');
+            }}
         >
             <Text style={sharedStyles.confirmButtonText}>CONFIRM SKILLS</Text>
         </TouchableOpacity>
