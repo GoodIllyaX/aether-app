@@ -1,17 +1,21 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { LayoutGrid, Library} from 'lucide-react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { THEME } from '../theme/sharedStyles';
 import LibraryScreen from '../../src/features/library/LibraryScreen';
 import CharacterSheetScreen from '../features/character-creation/CharacterSheetScreen'; 
 import { CharacterCreationStack } from '../navigation/CharacterCreationStack';
+import FeedScreen from '../features/feed/FeedScreen';
 
-const FeedScreen = () => (
-<View style={styles.screenPlaceholder}>
-    <Text style={styles.placeholderText}>FEED SCREEN (Coming Soon)</Text>
-</View>
-);
+// const FeedScreen = () => (
+// <View style={styles.screenPlaceholder}>
+//     <Text style={styles.placeholderText}>FEED SCREEN</Text>
+// </View>
+// );
+
+// Users, User 
 
 const ProfileScreen = () => (
 <View style={styles.screenPlaceholder}>
@@ -44,8 +48,24 @@ export const AppTabs = () => {
                 tabBarActiveTintColor: THEME.gold,
                 tabBarInactiveTintColor: 'rgba(255,255,255,0.4)',
             }}>
-            <Tab.Screen name="Feed" component={FeedScreen} />
-            <Tab.Screen name="Library" component={LibraryScreen} />
+            <Tab.Screen 
+                name="Feed" 
+                component={FeedScreen} 
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <LayoutGrid color={color} size={size} />
+                    ),
+                }} 
+            />
+            <Tab.Screen 
+                name="Library" 
+                component={LibraryScreen} 
+                options={{
+                    tabBarIcon: ({ color, size }) => (
+                        <Library color={color} size={size} />
+                    ),
+                }} 
+            />
 
             <Tab.Screen 
                 name="Create" 
@@ -54,7 +74,7 @@ export const AppTabs = () => {
                     tabBarButton: renderCreateButton(navigation),
                 })}
             />
-
+            
             <Tab.Screen name="Social" component={View} options={{ tabBarLabel: 'Social' }} />
             <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>
