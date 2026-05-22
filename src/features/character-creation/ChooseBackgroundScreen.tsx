@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, TextInput, Styl
 import { useNavigation } from '@react-navigation/native';
 import { sharedStyles, THEME } from '../../theme/sharedStyles';
 import { useCharacterStore } from '../../store/useCharacterStore';
-
+import { CURRENT_SESSION } from '../../../config';
 import { characterService } from '../../services/characterService';
 
 const STATIC_BACKGROUNDS = [
@@ -42,11 +42,12 @@ const charStore = useCharacterStore();
 const handleFinish = async () => {
 const characterData = {
     name: charStore.heroName,
+    author: CURRENT_SESSION.userName || 'Anonymous',
     race: charStore.chosenRace?.name || charStore.chosenRace,
     class: charStore.chosenClass?.name || charStore.chosenClass,
     stats: charStore.abilityScores,
     skills: charStore.selectedSkills,
-    background: charStore.background,
+    background: selected,
     bio: {
         alignment: selectedAlignment,
         story: personalStory,

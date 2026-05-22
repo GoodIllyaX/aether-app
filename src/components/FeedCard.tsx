@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-// import { theme } from '../theme/sharedStyles';
 
 interface FeedCardProps {
     character: any;
@@ -11,7 +10,9 @@ const FeedCard = ({ character }: FeedCardProps) => {
         <View style={styles.card}>
             <View style={styles.header}>
                 <View>
-                    <Text style={styles.username}>@Default_User</Text>
+                    <Text style={styles.username}>
+                        @{character.author ? character.author : 'Anonymous'}
+                    </Text>
                     <Text style={styles.time}>just now</Text>
                 </View>
                 <TouchableOpacity>

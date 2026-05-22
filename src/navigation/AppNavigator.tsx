@@ -7,15 +7,14 @@ import { THEME } from '../theme/sharedStyles';
 import LibraryScreen from '../../src/features/library/LibraryScreen';
 import CharacterSheetScreen from '../features/character-creation/CharacterSheetScreen'; 
 import { CharacterCreationStack } from '../navigation/CharacterCreationStack';
+
+import SplashScreen from '../features/auth/SplashScreen';
+import AuthScreen from '../features/auth/AuthScreen';
+import LoginScreen from '../features/auth/LoginScreen';
+import RegisterScreen from '../features/auth/RegisterScreen';
+import SystemSelectionScreen from '../features/auth/SystemSelectionScreen';
+
 import FeedScreen from '../features/feed/FeedScreen';
-
-// const FeedScreen = () => (
-// <View style={styles.screenPlaceholder}>
-//     <Text style={styles.placeholderText}>FEED SCREEN</Text>
-// </View>
-// );
-
-// Users, User 
 
 const ProfileScreen = () => (
 <View style={styles.screenPlaceholder}>
@@ -85,9 +84,20 @@ const Stack = createStackNavigator();
 
 const AppNavigator = () => {
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator 
+            initialRouteName="Splash"
+            screenOptions={{ headerShown: false }}>
+            
+            <Stack.Screen name="Splash" component={SplashScreen} />
+            <Stack.Screen name="Auth" component={AuthScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Register" component={RegisterScreen} />
+            <Stack.Screen name="SystemSelection" component={SystemSelectionScreen} />
+            
             <Stack.Screen name="MainTabs" component={AppTabs} />
+            
             <Stack.Screen name="CharacterSheetScreen" component={CharacterSheetScreen} />
+            
             <Stack.Screen name="CharacterCreation" component={CharacterCreationStack} />
         </Stack.Navigator>
     );
