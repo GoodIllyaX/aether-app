@@ -12,7 +12,7 @@ const LibraryScreen = () => {
   const loadCharacters = async () => {
     try {
       setLoading(true);
-      const data = await characterService.getAllCharacters();
+      const data = await characterService.getUserCharacters();
       setCharacters(data);
     } catch (error) {
       console.error("Library loading error:", error);
@@ -73,7 +73,7 @@ const renderItem = ({ item }: any) => (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0A0A0A',
+    backgroundColor: '#0e0915',
   },
   header: {
     padding: 20,

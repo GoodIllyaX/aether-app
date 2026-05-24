@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { LayoutGrid, Library} from 'lucide-react-native';
+import { LayoutGrid, Library, Shield} from 'lucide-react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { THEME } from '../theme/sharedStyles';
 import LibraryScreen from '../../src/features/library/LibraryScreen';
@@ -15,6 +15,10 @@ import RegisterScreen from '../features/auth/RegisterScreen';
 import SystemSelectionScreen from '../features/auth/SystemSelectionScreen';
 
 import FeedScreen from '../features/feed/FeedScreen';
+
+import CampaignHubScreen from '../features/campaigns/CampaignHubScreen';
+import CampaignsCreateScreen from '../features/campaigns/CampaignsCreateScreen';
+import DmCampaignsScreen from '../features/campaigns/DmCampaignsScreen';
 
 const ProfileScreen = () => (
 <View style={styles.screenPlaceholder}>
@@ -74,7 +78,17 @@ export const AppTabs = () => {
                 })}
             />
             
-            <Tab.Screen name="Social" component={View} options={{ tabBarLabel: 'Social' }} />
+            <Tab.Screen 
+                name="GM"
+                component={CampaignHubScreen}
+                options= {{
+                    tabBarLabel: "GM",
+                    tabBarIcon: ({ color, size }) => (
+                        <Shield color={color} size={size} />
+                    ),
+                }}
+            />
+            
             <Tab.Screen name="Profile" component={ProfileScreen} />
         </Tab.Navigator>
     );
@@ -99,6 +113,9 @@ const AppNavigator = () => {
             <Stack.Screen name="CharacterSheetScreen" component={CharacterSheetScreen} />
             
             <Stack.Screen name="CharacterCreation" component={CharacterCreationStack} />
+
+            <Stack.Screen name="CampaignsCreate" component={CampaignsCreateScreen} />
+            <Stack.Screen name="DmCampaignsScreen" component={DmCampaignsScreen} />
         </Stack.Navigator>
     );
 };

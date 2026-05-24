@@ -1,5 +1,6 @@
 import apiClient from '../api/apiClient';
 import myBackEndClient from '../api/BackEndClient';
+import { CURRENT_SESSION } from '../../config';
 
 export interface SubclassDetail {
   index: string;
@@ -64,10 +65,16 @@ export const characterService = {
     const response = await myBackEndClient.post('/characters', characterData);
     return response.data;
   },
+
   getAllCharacters: async () => {
-    const response = await myBackEndClient.get('/characters');
+    const response = await myBackEndClient.get('/characters/all');
+    return response.data;
+  },
+
+  getUserCharacters: async () => {
+    const userName = CURRENT_SESSION.userName || 'Anonymous';
+    const response = await myBackEndClient.get(`/characters/user/${userName}`);
     return response.data;
   }
 };
-
 export { getClasses, getClassDetails, getSubclassDetails };

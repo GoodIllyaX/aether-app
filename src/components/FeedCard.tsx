@@ -37,7 +37,7 @@ const FeedCard = ({ character }: FeedCardProps) => {
 
 const styles = StyleSheet.create({
 card: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: '#0e0915',
     padding: 20,
     marginBottom: 10,
     borderBottomWidth: 1,
@@ -75,8 +75,8 @@ storySnippet: {
 },
 divider: {
     marginTop: 15,
-    height: 1,
-    backgroundColor: '#333',
+    // height: 1,
+    // backgroundColor: '#333',
     width: '100%',
 }
 });

@@ -75,13 +75,13 @@ const FeedScreen = () => {
 const styles = StyleSheet.create({
     container: { 
         flex: 1, 
-        backgroundColor: '#000', 
+        backgroundColor: '#0e0915', 
         paddingTop: 50 },
     center: { 
         flex: 1, 
         justifyContent: 'center', 
         alignItems: 'center', 
-        backgroundColor: '#000' },
+        backgroundColor: '#0e0915' },
     title: { 
         color: '#FFF', 
         fontSize: 24, 
