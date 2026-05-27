@@ -1,4 +1,4 @@
-import { SUPABASE_CONFIG } from '../../config';
+import { SUPABASE_CONFIG } from '../config';
 
 const BASE_URL = SUPABASE_CONFIG.ASSETS_URL;
 
