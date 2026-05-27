@@ -2,6 +2,11 @@
   "cli": {
     "version": ">= 10.0.0"
   },
+  "hooks": {
+    "build": {
+      "preInstall": "echo \"export const SUPABASE_CONFIG = { ASSETS_URL: '$EXPO_PUBLIC_SUPABASE_ASSETS_URL', CAMPAIGN_MATERIALS_URL: '$EXPO_PUBLIC_SUPABASE_CAMPAIGN_URL' }; export const SUPABASE_URL = '$EXPO_PUBLIC_SUPABASE_URL'; export const SUPABASE_ANON_KEY = '$EXPO_PUBLIC_SUPABASE_ANON_KEY'; export const LOCAL_CONFIG = { BASE_URL_IP: '$EXPO_PUBLIC_BASE_URL_IP', BASE_URL_IP_API: '$EXPO_PUBLIC_BASE_URL_IP_API' }; export const CURRENT_SESSION = { userName: '' };\" > src/config.ts"
+    }
+  },
   "build": {
     "development": {
       "developmentClient": true,
@@ -11,9 +16,6 @@
       "distribution": "internal",
       "android": {
         "buildType": "apk"
-      },
-      "hooks": {
-        "preInstall": "echo \"export const SUPABASE_CONFIG = { ASSETS_URL: '$EXPO_PUBLIC_SUPABASE_ASSETS_URL', CAMPAIGN_MATERIALS_URL: '$EXPO_PUBLIC_SUPABASE_CAMPAIGN_URL' }; export const SUPABASE_URL = '$EXPO_PUBLIC_SUPABASE_URL'; export const SUPABASE_ANON_KEY = '$EXPO_PUBLIC_SUPABASE_ANON_KEY'; export const LOCAL_CONFIG = { BASE_URL_IP: '$EXPO_PUBLIC_BASE_URL_IP', BASE_URL_IP_API: '$EXPO_PUBLIC_BASE_URL_IP_API' }; export const CURRENT_SESSION = { userName: '' };\" > src/config.ts"
       }
     },
     "production": {}
