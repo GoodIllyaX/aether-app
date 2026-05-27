@@ -1,4 +1,5 @@
-import { LOCAL_CONFIG } from '../../config';
+// import { LOCAL_CONFIG } from '../../config';
+import { LOCAL_CONFIG } from '../config.web';
 
 export interface CampaignData {
     name: string;

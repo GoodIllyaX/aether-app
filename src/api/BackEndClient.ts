@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { LOCAL_CONFIG } from '../../config';
+// import { LOCAL_CONFIG } from '../../config';
+import { LOCAL_CONFIG } from '../config.web';
 
 // const BASE_URL_IP = LOCAL_CONFIG.BASE_URL_IP;
 const BASE_URL_IP = LOCAL_CONFIG.BASE_URL_IP_API

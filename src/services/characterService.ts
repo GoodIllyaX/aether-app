@@ -1,6 +1,7 @@
 import apiClient from '../api/apiClient';
 import myBackEndClient from '../api/BackEndClient';
-import { CURRENT_SESSION } from '../../config';
+// import { CURRENT_SESSION } from '../../config';
+import { CURRENT_SESSION } from '../config.web';
 
 export interface SubclassDetail {
   index: string;
