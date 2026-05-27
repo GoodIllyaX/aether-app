@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, SafeAreaView, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { sharedStyles} from '../../theme/sharedStyles';
-import { CURRENT_SESSION } from '../../../config';
+import { CURRENT_SESSION, SUPABASE_CONFIG } from '../../../config';
 import { campaignService } from '../../services/campaignService';
 
 const COLOR_PALETTE = ['#A855F7', '#EAB308', '#DB2777', '#C2410C', '#6366F1'];
@@ -21,6 +21,15 @@ export default function CampaignsCreateScreen() {
             return;
         }
 
+        // ДОБАВИЛ СЮДА: Жестко прописанная фейковая ссылка для дизайна
+        const mockMaterials = [
+            {
+                name: 'Strahd_curse_test.pdf',
+                fileType: 'pdf',
+                fileUrl: `${SUPABASE_CONFIG.CAMPAIGN_MATERIALS_URL}/strahd_test_rules.pdf`,
+            }
+        ];
+
         const campaignData = {
             name: name.trim(),
             dmName: CURRENT_SESSION.userName || 'Unknown_DM',
@@ -28,6 +37,7 @@ export default function CampaignsCreateScreen() {
             privacy: privacy,
             bannerColor: selectedColor,
             description: description.trim(),
+            materials: mockMaterials, // Ссылка улетает в Монгу
         };
 
         try {
