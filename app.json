@@ -1,9 +1,20 @@
 {
-  "name": "Aether",
-  "displayName": "Aether",
-  "extra": {
-    "eas": {
-      "projectId": "ce039e95-d79c-451a-8ad3-5e59630caa5e"
+  "expo": {
+    "name": "Aether",
+    "slug": "aether",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.goodillyax.aether"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ce039e95-d79c-451a-84d3-5e59630ca5fa"
+      }
     }
   }
 }
