@@ -1,6 +1,11 @@
 import React from 'react';
-import ChooseClassScreen from './src/features/character-creation/ChooseClassScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App() {
-  return <ChooseClassScreen />;
+  return (
+    <NavigationContainer>
+      <AppNavigator />
+    </NavigationContainer>
+  );
 }
