@@ -1,4 +1,9 @@
 {
   "name": "Aether",
-  "displayName": "Aether"
+  "displayName": "Aether",
+  "extra": {
+    "eas": {
+      "projectId": "ce039e95-d79c-451a-8ad3-5e59630caa5e"
+    }
+  }
 }
