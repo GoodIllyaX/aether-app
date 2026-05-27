@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, TextInput, Styl
 import { useNavigation } from '@react-navigation/native';
 import { sharedStyles, THEME } from '../../theme/sharedStyles';
 import { useCharacterStore } from '../../store/useCharacterStore';
-import { CURRENT_SESSION } from '../../../config';
+import { CURRENT_SESSION } from '../../config';
 import { characterService } from '../../services/characterService';
 
 const STATIC_BACKGROUNDS = [

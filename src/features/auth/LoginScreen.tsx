@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, StatusBar, Alert } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { LOCAL_CONFIG, CURRENT_SESSION } from '../../../config';
+import { LOCAL_CONFIG, CURRENT_SESSION } from '../../config';
 
 type Props = StackScreenProps<any, 'Login'>;
 

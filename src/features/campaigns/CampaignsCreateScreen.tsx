@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, SafeAreaView, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { sharedStyles} from '../../theme/sharedStyles';
-import { CURRENT_SESSION, SUPABASE_CONFIG } from '../../../config';
+import { CURRENT_SESSION, SUPABASE_CONFIG } from '../../config';
 import { campaignService } from '../../services/campaignService';
 
 const COLOR_PALETTE = ['#A855F7', '#EAB308', '#DB2777', '#C2410C', '#6366F1'];

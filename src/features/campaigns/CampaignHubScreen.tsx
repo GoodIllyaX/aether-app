@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, SafeAreaView, Alert } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { sharedStyles} from '../../theme/sharedStyles';
-import { CURRENT_SESSION } from '../../../config';
+import { CURRENT_SESSION } from '../../config';
 import { campaignService } from '../../services/campaignService';
 
 export default function CampaignHubScreen() {
