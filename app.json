@@ -10,11 +10,6 @@
     },
     "android": {
       "package": "com.goodillyax.aether"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "ce039e95-d79c-451a-84d3-5e59630ca5fa"
-      }
     }
   }
 }
