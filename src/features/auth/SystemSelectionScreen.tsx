@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { SUPABASE_CONFIG } from '../../config';
+// import { SUPABASE_CONFIG } from '../../config';
+import { SUPABASE_CONFIG } from '../../config.web';
 
 type Props = StackScreenProps<any, 'SystemSelection'>;
 
