@@ -20,4 +20,4 @@
 ## Завантажити застосунок (Android APK)
 
 Ви можете завантажити та протестувати готову збірку мобільного застосунку прямо на своєму смартфоні:
-👉 [Завантажити інсталяційний APK-файл платформи](https://expo.dev/accounts/ggillyax/projects/aether/builds/5325f39a-d711-4446-a1bf-ae7df9ed399d)
+👉 [Завантажити інсталяційний APK-файл платформи](https://expo.dev/accounts/ggillyax/projects/aether/builds/57d5a6b7-2c53-4677-99b4-afa263152828)
