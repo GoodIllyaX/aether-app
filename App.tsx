@@ -1,4 +1,5 @@
 import React from 'react';
+import { registerRootComponent } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/navigation/AppNavigator';
 
@@ -9,3 +10,5 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+registerRootComponent(App);
