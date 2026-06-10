@@ -9,6 +9,8 @@
 ### Опис проєкту
 Цей проєкт є кросплатформним мобільним застосунком, розробленим для автоматизації рутинних процесів, ведення менеджменту контенту та координації ігрових сесій у настільних рольових іграх (на прикладі системи Dungeons & Dragons 5e). Застосунок реалізовано за триланковою архітектурною моделлю (Client-Server-Database) із чітким розмежуванням логіки.
 
+[Дизайн прототип](https://www.figma.com/proto/gAvfiVUCRlcofB6zkYsBft/Main?page-id=66%3A3&node-id=314-1617&viewport=108%2C-34%2C0.07&t=LmStVP4YoSaZClmn-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=204%3A1581&show-proto-sidebar=1)
+
 **Основний стек технологій:**
 * **Frontend:** React Native, Expo, Expo Router (клієнтська маршрутизація).
 * **Backend:** Node.js, Express.js (серверні роутери для обробки REST API запитів).
